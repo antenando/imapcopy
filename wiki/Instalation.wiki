@@ -1,0 +1,8 @@
+#labels Featured,Phase-Deploy
+#Instalation instructions
+
+= Linux and other Unixes =
+
+  * Decompres the package
+  * Change imapCopy.sh file mode (chmod +x imapCopy.sh)
+  * Run with ./imapCopy.sh sourceImapAccount TargetImapAccount (ex: ./imapCopy.sh imap://peter:mypassword@foo.com imaps://peter%40gmail.com:myotherpasword@imap.gmail.com)
