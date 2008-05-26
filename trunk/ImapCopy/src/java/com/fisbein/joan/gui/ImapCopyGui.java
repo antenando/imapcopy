@@ -333,6 +333,7 @@ public class ImapCopyGui extends javax.swing.JFrame implements ImapCopyListener 
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void btnStopActionPerformed(ActionEvent evt) {
 		System.out.println("btnStop.actionPerformed, event=" + evt);
 		this.copyThread.stop();
