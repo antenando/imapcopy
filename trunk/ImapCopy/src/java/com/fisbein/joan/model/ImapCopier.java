@@ -1,5 +1,7 @@
-package com.fisbein.joan;
+package com.fisbein.joan.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Folder;
@@ -11,12 +13,14 @@ import javax.mail.URLName;
 
 import org.apache.log4j.Logger;
 
-public class ImapCopier {
+public class ImapCopier implements Runnable {
 	private final static Logger log = Logger.getLogger(ImapCopier.class);
 
 	private Store sourceStore = null;
 
 	private Store targetStore = null;
+
+	private List<ImapCopyListener> listeners = new ArrayList<ImapCopyListener>(0);
 
 	public static void main(String[] args) throws MessagingException {
 		if (args.length == 2) {
@@ -135,9 +139,19 @@ public class ImapCopier {
 	 * @throws MessagingException
 	 */
 	public void copy() throws MessagingException {
+		ImapCopyAplicationEvent evt = new ImapCopyAplicationEvent(ImapCopyAplicationEvent.START);
+		for (ImapCopyListener listener : listeners) {
+			listener.notification(evt);
+		}
+
 		Folder defaultSourceFolder = this.sourceStore.getDefaultFolder();
 		Folder defaultTargetFolder = this.targetStore.getDefaultFolder();
 		copyFolderAndMessages(defaultSourceFolder, defaultTargetFolder, true);
+
+		evt = new ImapCopyAplicationEvent(ImapCopyAplicationEvent.END);
+		for (ImapCopyListener listener : listeners) {
+			listener.notification(evt);
+		}
 	}
 
 	/**
@@ -172,6 +186,7 @@ public class ImapCopier {
 				log.debug("Creating target Folder: " + targetSubFolder.getFullName());
 				targetSubFolder.create(sourceSubFolder.getType());
 			}
+			notifyToListeners(targetSubFolder);
 			copyFolderAndMessages(sourceSubFolder, targetSubFolder, false);
 		}
 	}
@@ -194,6 +209,18 @@ public class ImapCopier {
 		}
 	}
 
+	private void notifyToListeners(Folder folder) {
+		ImapCopyFolderEvent evt = new ImapCopyFolderEvent();
+		evt.setFolderName(folder.getFullName());
+		for (ImapCopyListener listener : listeners) {
+			listener.notification(evt);
+		}
+	}
+
+	public void addImapCopyListener(ImapCopyListener listener) {
+		this.listeners.add(listener);
+	}
+
 	/**
 	 * Closes the open resources
 	 * 
@@ -205,5 +232,19 @@ public class ImapCopier {
 
 		if (this.targetStore != null)
 			this.targetStore.close();
+	}
+
+	public void run() {
+		try {
+			this.copy();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				this.close();
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
