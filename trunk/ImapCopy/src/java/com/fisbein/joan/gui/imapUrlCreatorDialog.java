@@ -13,6 +13,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import org.apache.log4j.Logger;
+
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
@@ -26,6 +28,8 @@ import com.jgoodies.forms.layout.FormLayout;
  */
 public class imapUrlCreatorDialog extends javax.swing.JDialog {
 	private static final long serialVersionUID = -3030207701909920747L;
+
+	private final static Logger log = Logger.getLogger(imapUrlCreatorDialog.class);
 
 	private JLabel jLabel1;
 
@@ -144,7 +148,7 @@ public class imapUrlCreatorDialog extends javax.swing.JDialog {
 	}
 
 	private void btnOkActionPerformed(ActionEvent evt) {
-		System.out.println("btnOk.actionPerformed, event=" + evt);
+		log.debug("btnOk.actionPerformed, event=" + evt);
 		String protocol;
 		if (radioSSLYes.isSelected()) {
 			protocol = "imaps";
@@ -175,6 +179,5 @@ public class imapUrlCreatorDialog extends javax.swing.JDialog {
 		} catch (Exception e) {
 			URL = null;
 		}
-
 	}
 }

@@ -8,10 +8,6 @@ import java.awt.event.ActionListener;
 import javax.mail.MessagingException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
@@ -43,16 +39,6 @@ public class ImapCopyGui extends javax.swing.JFrame implements ImapCopyListener 
 
 	private JLabel labelLog;
 
-	private JMenuItem helpMenuItem;
-
-	private JMenu jMenu5;
-
-	private JMenuItem deleteMenuItem;
-
-	private JSeparator jSeparator1;
-
-	private JMenuItem pasteMenuItem;
-
 	private JButton btnCopy;
 
 	private JButton btnEditImapSource;
@@ -66,30 +52,6 @@ public class ImapCopyGui extends javax.swing.JFrame implements ImapCopyListener 
 	private JLabel labelImapTarget;
 
 	private JLabel labelImapSource;
-
-	private JMenuItem copyMenuItem;
-
-	private JMenuItem cutMenuItem;
-
-	private JMenu jMenu4;
-
-	private JMenuItem exitMenuItem;
-
-	private JSeparator jSeparator2;
-
-	private JMenuItem closeFileMenuItem;
-
-	private JMenuItem saveAsMenuItem;
-
-	private JMenuItem saveMenuItem;
-
-	private JMenuItem openFileMenuItem;
-
-	private JMenuItem newFileMenuItem;
-
-	private JMenu jMenu3;
-
-	private JMenuBar jMenuBar1;
 
 	private Thread copyThread;
 
@@ -189,91 +151,8 @@ public class ImapCopyGui extends javax.swing.JFrame implements ImapCopyListener 
 				});
 			}
 			this.setSize(474, 128);
-			{
-				jMenuBar1 = new JMenuBar();
-				setJMenuBar(jMenuBar1);
-				jMenuBar1.setVisible(false);
-				{
-					jMenu3 = new JMenu();
-					jMenuBar1.add(jMenu3);
-					jMenu3.setText("File");
-					{
-						newFileMenuItem = new JMenuItem();
-						jMenu3.add(newFileMenuItem);
-						newFileMenuItem.setText("New");
-					}
-					{
-						openFileMenuItem = new JMenuItem();
-						jMenu3.add(openFileMenuItem);
-						openFileMenuItem.setText("Open");
-					}
-					{
-						saveMenuItem = new JMenuItem();
-						jMenu3.add(saveMenuItem);
-						saveMenuItem.setText("Save");
-					}
-					{
-						saveAsMenuItem = new JMenuItem();
-						jMenu3.add(saveAsMenuItem);
-						saveAsMenuItem.setText("Save As ...");
-					}
-					{
-						closeFileMenuItem = new JMenuItem();
-						jMenu3.add(closeFileMenuItem);
-						closeFileMenuItem.setText("Close");
-					}
-					{
-						jSeparator2 = new JSeparator();
-						jMenu3.add(jSeparator2);
-					}
-					{
-						exitMenuItem = new JMenuItem();
-						jMenu3.add(exitMenuItem);
-						exitMenuItem.setText("Exit");
-					}
-				}
-				{
-					jMenu4 = new JMenu();
-					jMenuBar1.add(jMenu4);
-					jMenu4.setText("Edit");
-					{
-						cutMenuItem = new JMenuItem();
-						jMenu4.add(cutMenuItem);
-						cutMenuItem.setText("Cut");
-					}
-					{
-						copyMenuItem = new JMenuItem();
-						jMenu4.add(copyMenuItem);
-						copyMenuItem.setText("Copy");
-					}
-					{
-						pasteMenuItem = new JMenuItem();
-						jMenu4.add(pasteMenuItem);
-						pasteMenuItem.setText("Paste");
-					}
-					{
-						jSeparator1 = new JSeparator();
-						jMenu4.add(jSeparator1);
-					}
-					{
-						deleteMenuItem = new JMenuItem();
-						jMenu4.add(deleteMenuItem);
-						deleteMenuItem.setText("Delete");
-					}
-				}
-				{
-					jMenu5 = new JMenu();
-					jMenuBar1.add(jMenu5);
-					jMenu5.setText("Help");
-					{
-						helpMenuItem = new JMenuItem();
-						jMenu5.add(helpMenuItem);
-						helpMenuItem.setText("Help");
-					}
-				}
-			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 		}
 	}
 
@@ -295,7 +174,7 @@ public class ImapCopyGui extends javax.swing.JFrame implements ImapCopyListener 
 	}
 
 	private void btnEditImapSourceActionPerformed(ActionEvent evt) {
-		System.out.println("btnEditImapSource.actionPerformed, event=" + evt);
+		log.debug("btnEditImapSource.actionPerformed, event=" + evt);
 		imapUrlCreatorDialog dialog = new imapUrlCreatorDialog(this);
 		Rectangle bounds = dialog.getBounds();
 		bounds.x = this.getBounds().x;
@@ -308,7 +187,7 @@ public class ImapCopyGui extends javax.swing.JFrame implements ImapCopyListener 
 	}
 
 	private void btnEditImapTargetActionPerformed(ActionEvent evt) {
-		System.out.println("btnEditImapTarget.actionPerformed, event=" + evt);
+		log.debug("btnEditImapTarget.actionPerformed, event=" + evt);
 		imapUrlCreatorDialog dialog = new imapUrlCreatorDialog(this);
 		Rectangle bounds = dialog.getBounds();
 		bounds.x = this.getBounds().x;
@@ -335,7 +214,7 @@ public class ImapCopyGui extends javax.swing.JFrame implements ImapCopyListener 
 
 	@SuppressWarnings("deprecation")
 	private void btnStopActionPerformed(ActionEvent evt) {
-		System.out.println("btnStop.actionPerformed, event=" + evt);
+		log.debug("btnStop.actionPerformed, event=" + evt);
 		this.copyThread.stop();
 		btnCopy.setEnabled(true);
 		btnStop.setEnabled(false);
