@@ -18,7 +18,7 @@ import com.fisbein.joan.model.ImapCopier;
 import com.fisbein.joan.model.ImapCopyAplicationEvent;
 import com.fisbein.joan.model.ImapCopyEvent;
 import com.fisbein.joan.model.ImapCopyFolderEvent;
-import com.fisbein.joan.model.ImapCopyListener;
+import com.fisbein.joan.model.ImapCopyListenerInterface;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
@@ -30,7 +30,7 @@ import com.jgoodies.forms.layout.FormLayout;
  * licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS
  * CODE CANNOT BE USED LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
-public class ImapCopyGui extends javax.swing.JFrame implements ImapCopyListener {
+public class ImapCopyGui extends javax.swing.JFrame implements ImapCopyListenerInterface {
 	private static final long serialVersionUID = 3773683855479203142L;
 
 	private final static Logger log = Logger.getLogger(ImapCopyGui.class);
@@ -204,7 +204,6 @@ public class ImapCopyGui extends javax.swing.JFrame implements ImapCopyListener 
 			labelLog.setText("Copying Folder:" + ((ImapCopyFolderEvent) evt).getFolderName());
 			this.repaint();
 		} else if (evt instanceof ImapCopyAplicationEvent) {
-
 			if (((ImapCopyAplicationEvent) evt).getType() == ImapCopyAplicationEvent.END) {
 				btnCopy.setEnabled(true);
 				btnStop.setEnabled(false);
