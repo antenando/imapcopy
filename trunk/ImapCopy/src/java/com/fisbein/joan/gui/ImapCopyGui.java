@@ -199,12 +199,12 @@ public class ImapCopyGui extends javax.swing.JFrame implements ImapCopyListenerI
 		dialog.setVisible(true);
 	}
 
-	public void notification(ImapCopyEvent evt) {
-		if (evt instanceof ImapCopyFolderEvent) {
-			labelLog.setText("Copying Folder:" + ((ImapCopyFolderEvent) evt).getFolderName());
+	public void eventNotification(ImapCopyEvent event) {
+		if (event instanceof ImapCopyFolderEvent) {
+			labelLog.setText("Copying Folder:" + ((ImapCopyFolderEvent) event).getFolderName());
 			this.repaint();
-		} else if (evt instanceof ImapCopyAplicationEvent) {
-			if (((ImapCopyAplicationEvent) evt).getType() == ImapCopyAplicationEvent.END) {
+		} else if (event instanceof ImapCopyAplicationEvent) {
+			if (((ImapCopyAplicationEvent) event).getType() == ImapCopyAplicationEvent.END) {
 				btnCopy.setEnabled(true);
 				btnStop.setEnabled(false);
 			}
