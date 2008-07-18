@@ -20,7 +20,7 @@ public class ImapCopier implements Runnable {
 
 	private Store targetStore = null;
 
-	private List<ImapCopyListener> listeners = new ArrayList<ImapCopyListener>(0);
+	private List<ImapCopyListenerInterface> listeners = new ArrayList<ImapCopyListenerInterface>(0);
 
 	public static void main(String[] args) throws MessagingException {
 		if (args.length == 2) {
@@ -36,7 +36,7 @@ public class ImapCopier implements Runnable {
 		} else {
 			String usage = "usage: imapCopy source target\n";
 			usage += "source & target format: protocol://user[:password]@server[:port]\n";
-			usage += "protocol: imap or imaps";
+			usage += "protocols: imap or imaps";
 			System.out.println(usage);
 		}
 	}
@@ -133,14 +133,14 @@ public class ImapCopier implements Runnable {
 	}
 
 	/**
-	 * Copy the folders and messages defined with the methods <code>openSourceConnection</code>
-	 * and <code>openTargetConnection</code>
+	 * Copy the folders and messages defined with the methods <code>openSourceConnection</code> and
+	 * <code>openTargetConnection</code>
 	 * 
 	 * @throws MessagingException
 	 */
 	public void copy() throws MessagingException {
 		ImapCopyAplicationEvent evt = new ImapCopyAplicationEvent(ImapCopyAplicationEvent.START);
-		for (ImapCopyListener listener : listeners) {
+		for (ImapCopyListenerInterface listener : listeners) {
 			listener.notification(evt);
 		}
 
@@ -149,7 +149,7 @@ public class ImapCopier implements Runnable {
 		copyFolderAndMessages(defaultSourceFolder, defaultTargetFolder, true);
 
 		evt = new ImapCopyAplicationEvent(ImapCopyAplicationEvent.END);
-		for (ImapCopyListener listener : listeners) {
+		for (ImapCopyListenerInterface listener : listeners) {
 			listener.notification(evt);
 		}
 	}
@@ -212,12 +212,12 @@ public class ImapCopier implements Runnable {
 	private void notifyToListeners(Folder folder) {
 		ImapCopyFolderEvent evt = new ImapCopyFolderEvent();
 		evt.setFolderName(folder.getFullName());
-		for (ImapCopyListener listener : listeners) {
+		for (ImapCopyListenerInterface listener : listeners) {
 			listener.notification(evt);
 		}
 	}
 
-	public void addImapCopyListener(ImapCopyListener listener) {
+	public void addImapCopyListener(ImapCopyListenerInterface listener) {
 		this.listeners.add(listener);
 	}
 
