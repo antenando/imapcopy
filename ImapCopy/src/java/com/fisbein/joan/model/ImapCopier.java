@@ -141,7 +141,7 @@ public class ImapCopier implements Runnable {
 	public void copy() throws MessagingException {
 		ImapCopyAplicationEvent evt = new ImapCopyAplicationEvent(ImapCopyAplicationEvent.START);
 		for (ImapCopyListenerInterface listener : listeners) {
-			listener.notification(evt);
+			listener.eventNotification(evt);
 		}
 
 		Folder defaultSourceFolder = this.sourceStore.getDefaultFolder();
@@ -150,7 +150,7 @@ public class ImapCopier implements Runnable {
 
 		evt = new ImapCopyAplicationEvent(ImapCopyAplicationEvent.END);
 		for (ImapCopyListenerInterface listener : listeners) {
-			listener.notification(evt);
+			listener.eventNotification(evt);
 		}
 	}
 
@@ -210,10 +210,9 @@ public class ImapCopier implements Runnable {
 	}
 
 	private void notifyToListeners(Folder folder) {
-		ImapCopyFolderEvent evt = new ImapCopyFolderEvent();
-		evt.setFolderName(folder.getFullName());
+		ImapCopyFolderEvent evt = new ImapCopyFolderEvent(folder.getFullName());
 		for (ImapCopyListenerInterface listener : listeners) {
-			listener.notification(evt);
+			listener.eventNotification(evt);
 		}
 	}
 
