@@ -23,10 +23,13 @@ public class ImapCopier implements Runnable {
 	private List<ImapCopyListenerInterface> listeners = new ArrayList<ImapCopyListenerInterface>(0);
 
 	public static void main(String[] args) throws MessagingException {
+		log.info("Starting");
+		log.debug("Parameters length:" + args.length);
 		if (args.length == 2) {
 			ImapCopier imapCopier = new ImapCopier();
 
 			try {
+				log.debug("opening conections");
 				imapCopier.openSourceConnection(args[0].trim());
 				imapCopier.openTargetConnection(args[1].trim());
 				imapCopier.copy();
