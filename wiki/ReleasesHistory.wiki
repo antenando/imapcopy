@@ -1,0 +1,16 @@
+#summary Resleases history and changes
+#labels Featured
+
+= Versions =
+
+== v0.1 ==
+* initial release
+
+== v0.2 ==
+* Added simple gui interface
+
+== v0.3 ==
+* Solved bugs in gui interface
+
+== v0.3.1 ==
+* Solved bug in "imapCopy.sh" with parameters being lost
