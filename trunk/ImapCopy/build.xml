@@ -24,7 +24,10 @@
 	</target>
 
 	<target name="distrib" depends="imapCopy.jar">
-		<zip destfile="${basedir}/target/imapCopy.zip">
+
+		<mkdir dir="${basedir}/target/imapCopy" />
+
+		<copy todir="${basedir}/target/imapCopy">
 			<fileset dir="${basedir}/src/etc" />
 			<fileset dir="${basedir}/target">
 				<include name="imapCopy.jar" />
@@ -35,7 +38,15 @@
 			<fileset dir="${basedir}/lib/javamail">
 				<include name="*.jar" />
 			</fileset>
+		</copy>
+
+		<zip destfile="${basedir}/target/imapCopy.zip">
+			<fileset dir="${basedir}/target/">
+				<include name="imapCopy/**" />
+			</fileset>
 		</zip>
+
+		<deltree dir="${basedir}/target/imapCopy" />
 	</target>
 
 	<target name="build" description="Builds the app" depends="distrib" />
